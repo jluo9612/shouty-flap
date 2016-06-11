@@ -10,18 +10,18 @@ function setup() {
 
 function draw() {
     vol = mic.getLevel();
-    if(0.5 < vol) {
-      // console.log("yay");
+    if(0.3 < vol) {
+      console.log("yay");
     } else {
-      // console.log("nope");
+      console.log("nope");
     }
     
-    if(0.5 < vol) {
+    if(0.3 < vol) {
         runGame();
         console.log("game running");
     }
 }
 
 function runGame() {
-    window.location = "index.html";
+    window.location = "startgame.html";
 }

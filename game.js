@@ -6,6 +6,7 @@ var enemyImage2;
 var player;
 var playerImage;
 var isGameOver;
+var score;
 
 function preload() {
     backgroundImage = loadImage("ahhp.jpg");
@@ -25,6 +26,7 @@ function setup() {
     enemy.addImage(enemyImage);
     enemy2 = createSprite(width, height-80, 20, 5);
     enemy2.addImage(enemyImage2);
+    score = 0;
 }
 
 function draw() {
@@ -33,26 +35,33 @@ function draw() {
     //get the current amplitude value
     var vol = mic.getLevel();
     console.log(vol);
-    
+    textAlign(CENTER);
+    textSize(50);
+    text(score, camera.position.x, 50);
     drawSprites();
     
-    console.log("going down");
-    player.position.y -= 1;
+    score += 1
     
-    if(0.04 < vol < 1) {
+    if (isGameOver){
+        score = 0;
+    }
+    console.log("going down");
+    player.position.y += 3;
+    
+    if(0.1 < vol) {
         console.log("going up");
-        player.position.y += 3;
+        player.position.y -= 10;
     } 
     // else if(0.2 < vol < 1) {
     //     player.position.y -= 3;
     //     console.log("going up faster");
     // }
     
-    if(0.04 < vol < 1 && player.position.y <= 25) {
+    if(0.1 < vol < 1 && player.position.y <= 25) {
         player.position.y = 25;
     }
     
-    if(vol < 0.04 && player.position.y > height-20) {
+    if(vol < 0.1 && player.position.y > height-20) {
         player.position.y = height-20;
     }
     
@@ -102,10 +111,11 @@ function draw() {
     }
 
 function gameOver() {
-    background(19, 11, 92);
+    background(1, 11, 92);
     textAlign(CENTER);
     fill("white");
     textSize(20);
+    text("You score:" + score, camera.position.x, camera.position.y-30);
     text("GAME OVER!", width/2, height/2);
     text("Press enter key or click anywhere to try again", width/2, 3*height/5);
 }
@@ -115,6 +125,7 @@ function gameOver() {
 function mouseClicked() {
     
     if (isGameOver) {
+        score = 0;
         isGameOver = false;
         player.position.x = width/12;
         player.position.y = height-20;
