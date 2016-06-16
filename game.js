@@ -196,6 +196,13 @@ function draw() {
       
     }
     
+    if (enemy.overlap(bullets)) {
+       enemy.remove();
+    }
+    if (enemy2.overlap(bullets)) {
+       enemy2.remove();
+    }
+    
     if(isGameOver) {
         noLoop();
         fin = score;
