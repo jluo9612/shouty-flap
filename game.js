@@ -8,6 +8,29 @@ var playerImage;
 var isGameOver;
 var score;
 var fin;
+var recognition = new webkitSpeechRecognition();
+
+recognition.start();
+
+recognition.onresult = function(event) {
+    var interim_transcript = '';
+    var final_transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+            final_transcript += event.results[i][0].transcript;
+        } else {
+            interim_transcript += event.results[i][0].transcript;
+        }
+    }
+    
+    console.log(final_transcript);
+    
+}
+
+recognition.onend = function () {
+    console.log("recognition finished");
+    recognition.start();
+};
 
 function preload() {
     backgroundImage = loadImage("ahhp.jpg");
@@ -29,12 +52,57 @@ function setup() {
     score = 0;
     isGameOver = false;
 }
-    
+
+// function gameOver() {    
+//     if(isGameOver) {
+//         noLoop();
+//         fin = score;
+//         background(1, 11, 92);
+//         textAlign(CENTER);
+//         fill("white");
+//         textSize(20);
+//         text("Your score:" + fin, camera.position.x, camera.position.y-30);
+//         text("GAME OVER!", width/2, height/2);
+//         text("Press enter key or click anywhere to try again", width/2, 3*height/5);
+//     } 
+// }
+
+function mouseClicked() {
+    if (isGameOver) {
+        isGameOver = false;
+        score = 0;
+        fin = 0;
+        player.position.x = width/12;
+        player.position.y = height-20;
+        enemy.position.x = width;
+        enemy.position.x += random(1, 4);
+        enemy.position.y = random(5, height-5);
+        loop();
+    }
+}
+
+function keyPressed() {
+    if (keyCode === 13) {
+        if (isGameOver) {
+            score = 0;
+            fin = 0;
+            isGameOver = false;
+            player.position.x = width/12;
+            player.position.y = height-20;
+            enemy.position.x = width;
+            enemy.position.x += random(1, 4);
+            enemy.position.y = random(5, height-5);
+            loop();
+        }
+    }
+    return false; //prevent any default behavior
+}
+
 function draw() {
     background(backgroundImage);
     //get the current amplitude value
     var vol = mic.getLevel();
-    console.log(vol);
+    // console.log(vol);
     textAlign(CENTER);
     textSize(50);
     text(score, camera.position.x, 50);
@@ -85,10 +153,7 @@ function draw() {
             enemy2.position.y -= random(7, 10);
         }
     }
-    
-    if(isGameOver) {
-        gameOver();
-    }
+
     
     if ((enemy.position.x < 25) || (enemy2.position.x < 25)) {
         enemy.position.x = width+5;
@@ -99,11 +164,9 @@ function draw() {
     
     if (enemy.overlap(player) || enemy2.overlap(player)) {
       isGameOver = true;
+      
     }
-
-}
-
-function gameOver() {    
+    
     if(isGameOver) {
         noLoop();
         fin = score;
@@ -114,36 +177,7 @@ function gameOver() {
         text("Your score:" + fin, camera.position.x, camera.position.y-30);
         text("GAME OVER!", width/2, height/2);
         text("Press enter key or click anywhere to try again", width/2, 3*height/5);
-    } else {
-        redraw();
     }
-}
 
-function mouseClicked() {
-    if (isGameOver) {
-        score = 0;
-        fin = 0;
-        isGameOver = false;
-        player.position.x = width/12;
-        player.position.y = height-20;
-        enemy.position.x = width;
-        enemy.position.x += random(1, 4);
-        enemy.position.y = random(5, height-5);
-    }
 }
-
-// function keyPressed() {
-//     if (keyCode === 13) {
-//         if (isGameOver) {
-//             score = 0;
-//             fin = 0;
-//             isGameOver = false;
-//             player.position.x = width/12;
-//             player.position.y = height-20;
-//             enemy.position.x = width;
-//             enemy.position.x += random(1, 4);
-//             enemy.position.y = random(5, height-5);
-//         }
-//     }
-//     return false; //prevent any default behavior
-// }
+    console.log('running');
