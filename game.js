@@ -86,9 +86,9 @@ function keyPressed() {
         if (isGameOver) {
             score = 0;
             fin = 0;
-            isGameOver = false;
             player.position.x = width/12;
             player.position.y = height-20;
+            isGameOver = false;
             enemy.position.x = width;
             enemy.position.x += random(1, 4);
             enemy.position.y = random(5, height-5);
@@ -110,8 +110,8 @@ function draw() {
     //get the current amplitude value
     var vol = mic.getLevel();
     textAlign(CENTER);
-    textSize(50);
-    text(score, camera.position.x, 50);
+    textSize(20);
+    text("Score:" + score, camera.position.x, 25);
     
     // if (keyIsDown(RIGHT_ARROW)) {
     //     for (var i = 0; i < 10; i++) {
@@ -173,18 +173,18 @@ function draw() {
         enemy2.position.y += random(-16, 16);
     } else {
         if(enemy.position.y < 50 || (enemy2.position.y < 50)) {
-            enemy.position.y += random(7, 10);
-            enemy2.position.y += random(7, 10);
+            enemy.position.y += random(10, 20);
+            enemy2.position.y += random(10, 20);
         }
         
         if((enemy.position.y > height-40) || (enemy2.position.y > height-40)) {
-            enemy.position.y -= random(7, 10);
-            enemy2.position.y -= random(7, 10);
+            enemy.position.y -= random(10, 20);
+            enemy2.position.y -= random(10, 20);
         }
     }
 
     
-    if ((enemy.position.x < 25) || (enemy2.position.x < 25)) {
+    if ((enemy.position.x < 10) || (enemy2.position.x < 10)) {
         enemy.position.x = width+5;
         enemy.position.x -= random(1,4);
         enemy2.position.x = width+5;
@@ -197,10 +197,10 @@ function draw() {
     }
     
     if (enemy.overlap(bullets)) {
-       enemy.remove();
+       enemy.position.x = width+100;
     }
     if (enemy2.overlap(bullets)) {
-       enemy2.remove();
+       enemy2.position.x = width+100;
     }
     
     if(isGameOver) {
