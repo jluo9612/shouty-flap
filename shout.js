@@ -12,6 +12,7 @@ function draw() {
     vol = mic.getLevel();
     if(0.3 < vol) {
       console.log("yay");
+      console.log(vol);
     } else {
       console.log("nope");
     }
