@@ -295,7 +295,7 @@ master = function () {
     //put a hard limiter on the output
     this.limiter = audiocontext.createDynamicsCompressor();
     this.limiter.threshold.value = 0;
-    this.limiter.ratio.value = 100;
+    this.limiter.ratio.value = 20;
     this.audiocontext = audiocontext;
     this.output.disconnect();
     // an array of input sources
